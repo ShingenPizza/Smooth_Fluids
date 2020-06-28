@@ -2,7 +2,7 @@
 ### Smooth Fluids
 
 This is a Factorio mod that smoothes out fluid-using recipes, making them
-proportionally take less time, use less resources, and create less products.
+proportionally take less time, use fewer resources, and create fewer products.
 
 It was born from the frustration of seeing refineries taking a long time to
 process large batches of resources, and create weird-ass production graphs that
