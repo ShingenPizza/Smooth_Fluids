@@ -8,6 +8,24 @@ It was born from the frustration of seeing refineries taking a long time to
 process large batches of resources, and create weird-ass production graphs that
 were absolutely useless in the short timeframe.
 
-I think ideally they should process tiny amounts of fluids with every update,
+The mod should work with any* recipes, vanilla or modded, as long as my mod's
+script runs after they're ready.
+
+If you have a mod that Smooth Fluids causes some issues with, please let me know
+so I can try to solve it - most likely it will just require adding some
+dependencies that you could try doing yourself too.
+
+I think ideally Factorio should process tiny amounts of fluids with every update,
 but that most likely would require reworking how the game crafts items, so until
 then this mod is the next best thing.
+
+A little warning: activating/deactivating this mod in an ongoing game will
+probably cause a couple-seconds-long surge/lowering of altered fluids'
+production. It doesn't matter in the long run though.
+
+\* ATM I do not support recipes:
+* that have the normal/expensive _difficulties_,
+* with probabilities or result amount ranges,
+* with a single (type, not quantity) item result in a different-than-usual
+format that i didn't figure out how to handle nicely yet,
+* and obviously recipes with no fluid components.
