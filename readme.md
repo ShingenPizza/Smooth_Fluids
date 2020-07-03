@@ -1,6 +1,8 @@
 
 ### Smooth Fluids
 
+![](screenshots.png)
+
 This is a Factorio mod that smoothes out fluid-using recipes, making them
 proportionally take less time, use fewer resources, and create fewer products.
 
@@ -29,3 +31,8 @@ production. It doesn't matter in the long run though.
 * with a single (type, not quantity) item result in a different-than-usual
 format that i didn't figure out how to handle nicely yet,
 * and obviously recipes with no fluid components.
+
+And please note that I'm not a professional Lua dev etc.. Factorio modding is my
+first time playing around with it, so if you have any suggestions for
+changes/optimizations feel free to tell me, I'm open to improving :)
+ 
