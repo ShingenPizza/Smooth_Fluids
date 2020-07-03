@@ -10,9 +10,14 @@ function myutil.tertiary(cond, t, f)
   if cond then return t else return f end
 end
 
+function myutil.round(val) -- just for rounding positive values to units
+  return math.floor(val + 0.5)
+end
+
 function myutil.GCD(a, b)
-  if a > b then return myutil.GCD(a - b, b) end
-  if b > a then return myutil.GCD(a, b - a) end
+  local diff = myutil.round(a - b)
+  if diff > 0 then return myutil.GCD(diff, b) end
+  if diff < 0 then return myutil.GCD(a, -diff) end
   return a
 end
 
@@ -29,7 +34,7 @@ function myutil.GCD_list(list)
       end
     end
   end
-  return found_gcd
+  return myutil.round(found_gcd)
 end
 
 function myutil.has_value(list, val)
