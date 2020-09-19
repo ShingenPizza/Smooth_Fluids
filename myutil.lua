@@ -67,11 +67,6 @@ function myutil.is_any_fluid(recipe)
   return false
 end
 
-function myutil.does_any_have_probability(recipe)
-  for _, tmp in pairs(recipe['results']) do if tmp['probability'] then return true end end
-  return false
-end
-
 function myutil.does_any_have_amount_range(recipe)
   for _, tmp in pairs(recipe['results']) do if tmp['amount_min'] or tmp['amount_max'] then return true end end
   return false

@@ -40,11 +40,6 @@ function add_recipe(recipe_name)
     return
   end
 
-  if myutil.does_any_have_probability(recipe) then
-    myutil.log('ignoring ' .. recipe_name .. ' - probability')
-    return
-  end
-
   -- TODO support amount ranges
   if myutil.does_any_have_amount_range(recipe) then
     myutil.log('ignoring ' .. recipe_name .. ' - amount_min or amount_max')
