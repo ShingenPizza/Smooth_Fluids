@@ -1,13 +1,13 @@
 {
   "name": "Smooth_Fluids",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "title": "Smooth Fluids",
   "description": "Smoothes out fluid-using recipes, making them proportionally take less time, use fewer resources, and create fewer products.",
   "author": "Shingen",
   "homepage": "https://github.com/ShingenPizza/Smooth_Fluids",
-  "factorio_version": "0.18",
+  "factorio_version": "1.0",
   "dependencies": [
-    "base >= 0.18.31"
+    "base >= 1.0.0"
   , "? angelsbioprocessing"
   , "? angelsindustries"
   , "? angelspetrochem"
