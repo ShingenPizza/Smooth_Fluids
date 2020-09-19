@@ -10,6 +10,14 @@ data:extend({
     order = 1,
   },
   {
+    type = 'string-setting',
+    name = 'Smooth_Fluids-blacklist',
+    setting_type = 'startup',
+    default_value = '',
+    allow_blank = true,
+    order = 2,
+  },
+  {
     type = 'bool-setting',
     name = 'Smooth_Fluids-debug',
     setting_type = 'startup',

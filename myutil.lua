@@ -1,4 +1,22 @@
 
+function string:split(sSeparator)
+   local aRecord = {}
+
+   if self:len() > 0 then
+      local nField, nStart = 1, 1
+      local nFirst,nLast = self:find(sSeparator, nStart)
+      while nFirst do
+         aRecord[nField] = self:sub(nStart, nFirst-1)
+         nField = nField+1
+         nStart = nLast+1
+         nFirst,nLast = self:find(sSeparator, nStart)
+      end
+      aRecord[nField] = self:sub(nStart)
+   end
+
+   return aRecord
+end
+
 local myutil = {}
 
 local debug = settings.startup['Smooth_Fluids-debug'].value

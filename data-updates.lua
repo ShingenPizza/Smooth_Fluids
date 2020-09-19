@@ -6,10 +6,16 @@ local datarecipe = data.raw.recipe
 local recipes = {}
 
 local shortest_time = settings.startup['Smooth_Fluids-shortest-time-allowed'].value
+local blacklist = string.split(settings.startup['Smooth_Fluids-blacklist'].value, ',')
 local lowest_fluid = 0.1 -- i don't think this needs a separate setting... yet.
 
 function add_recipe(recipe_name)
   myutil.log(recipe_name)
+
+  if myutil.has_value(blacklist, recipe_name) then
+    myutil.log('ignoring ' .. recipe_name .. ' - blacklisted')
+    return
+  end
 
   local recipe = datarecipe[recipe_name]
 
