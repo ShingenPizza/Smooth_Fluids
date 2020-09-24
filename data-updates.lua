@@ -79,12 +79,14 @@ function smooth(recipe_name)
     myutil.log(sub .. ':')
     for _, tmp in pairs(recipe[sub]) do
       local amount = myutil.get_amount(tmp)
-      myutil.log(myutil.get_name(tmp) .. ' amount ' .. amount .. myutil.tertiary(myutil.is_fluid(tmp), ' / ' .. lowest_fluid .. ' = ' .. amount / lowest_fluid .. ' (fluid)', ''))
-      if myutil.is_fluid(tmp) then
-        amount = amount / lowest_fluid
-      end
-      if not myutil.has_value(tmpamounts, amount) then
-        table.insert(tmpamounts, amount)
+      if amount > 0 then
+        myutil.log(myutil.get_name(tmp) .. ' amount ' .. amount .. myutil.tertiary(myutil.is_fluid(tmp), ' / ' .. lowest_fluid .. ' = ' .. amount / lowest_fluid .. ' (fluid)', ''))
+        if myutil.is_fluid(tmp) then
+          amount = amount / lowest_fluid
+        end
+        if not myutil.has_value(tmpamounts, amount) then
+          table.insert(tmpamounts, amount)
+        end
       end
     end
   end
