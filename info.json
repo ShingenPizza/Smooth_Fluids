@@ -1,6 +1,6 @@
 {
   "name": "Smooth_Fluids",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "title": "Smooth Fluids",
   "description": "Smoothes out fluid-using recipes, making them proportionally take less time, use fewer resources, and create fewer products.",
   "author": "Shingen",

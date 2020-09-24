@@ -14,3 +14,10 @@ Date: 2020-09-20
   Features:
     - Removed checking/skipping recipes with probabilities - they should work.
     - Added a recipe blacklist.
+---------------------------------------------------------------------------------------------------
+Version: 1.0.3
+Date: 2020-09-24
+  Fixes:
+    - Skipping ingredients and results with amounts = 0 causing another infinite recursion.
+  Other:
+    - Changed dependencies to hidden.
