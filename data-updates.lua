@@ -99,7 +99,7 @@ function smooth(recipe_name)
     myutil.log(i .. ' ' .. amount)
   end
   local found_gcd
-  if myutil.len(tmpamounts) == 1 then
+  if table_size(tmpamounts) == 1 then
     found_gcd = tmpamounts[1]
   else
     found_gcd = myutil.GCD_list(tmpamounts)

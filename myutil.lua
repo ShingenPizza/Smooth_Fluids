@@ -90,20 +90,8 @@ function myutil.does_any_have_amount_range(recipe)
   return false
 end
 
-function myutil.len(list)
-  local count = 0
-  for _ in pairs(list) do count = count + 1 end
-  return count
-end
-
 function myutil.is_known_recipe_format(ingres)
-  if ingres['name'] then
-    return true
-  elseif myutil.len(ingres) == 2 then
-    return true
-  else
-    return false
-  end
+  return ingres['name'] or table_size(ingres) == 2
 end
 
 function myutil.is_full_format(ingres)
