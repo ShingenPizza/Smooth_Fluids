@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.0
 Date: 2020-06-27
-  Features:
+  Other:
     - Initial release.
 ---------------------------------------------------------------------------------------------------
 Version: 1.0.1
@@ -21,3 +21,8 @@ Date: 2020-09-24
     - Skipping ingredients and results with amounts = 0 causing another infinite recursion.
   Other:
     - Changed dependencies to hidden.
+---------------------------------------------------------------------------------------------------
+Version: 1.0.4
+Date: 2020-11-23
+  Other:
+    - Factorio 1.1 version bump.
