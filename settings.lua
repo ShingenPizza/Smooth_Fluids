@@ -7,7 +7,7 @@ data:extend({
     default_value = 0.2,
     minimum_value = 0.02,
     maximum_value = 1000.0,
-    order = 1,
+    order = '01',
   },
   {
     type = 'string-setting',
@@ -15,13 +15,13 @@ data:extend({
     setting_type = 'startup',
     default_value = '',
     allow_blank = true,
-    order = 2,
+    order = '02',
   },
   {
     type = 'bool-setting',
     name = 'Smooth_Fluids-debug',
     setting_type = 'startup',
     default_value = false,
-    order = 99,
+    order = '99',
   },
 })
