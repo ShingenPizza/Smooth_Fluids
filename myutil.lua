@@ -1,20 +1,17 @@
 
-function string:split(sSeparator)
-   local aRecord = {}
-
-   if self:len() > 0 then
-      local nField, nStart = 1, 1
-      local nFirst,nLast = self:find(sSeparator, nStart)
-      while nFirst do
-         aRecord[nField] = self:sub(nStart, nFirst-1)
-         nField = nField+1
-         nStart = nLast+1
-         nFirst,nLast = self:find(sSeparator, nStart)
-      end
-      aRecord[nField] = self:sub(nStart)
-   end
-
-   return aRecord
+function string:split(sep)
+    if self:len() <= 0 then return {} end
+    local res = {}
+    local part, start = 1, 1
+    while true do
+        local first, last = self:find(sep, start)
+        if first == nil then break end
+        res[part] = self:sub(start, first - 1)
+        part = part + 1
+        start = last + 1
+    end
+    res[part] = self:sub(start)
+    return res
 end
 
 local myutil = {}
@@ -71,13 +68,6 @@ function myutil.are_all_of_known_recipe_format(recipe)
   return true
 end
 
-function myutil.are_all_fluids(recipe)
-  for _, sub in pairs({'ingredients', 'results'}) do
-    for _, tmp in pairs(recipe[sub]) do if not myutil.is_fluid(tmp) then return false end end
-  end
-  return true
-end
-
 function myutil.is_any_fluid(recipe)
   for _, sub in pairs({'ingredients', 'results'}) do
     for _, tmp in pairs(recipe[sub]) do if myutil.is_fluid(tmp) then return true end end
@@ -87,6 +77,13 @@ end
 
 function myutil.does_any_have_amount_range(recipe)
   for _, tmp in pairs(recipe['results']) do if tmp['amount_min'] or tmp['amount_max'] then return true end end
+  return false
+end
+
+function myutil.is_any_single_nonfluid(recipe)
+  for _, sub in pairs({'ingredients', 'results'}) do
+    for _, tmp in pairs(recipe[sub]) do if not myutil.is_fluid(tmp) and myutil.get_amount(tmp) == 1 then return true end end
+  end
   return false
 end
 

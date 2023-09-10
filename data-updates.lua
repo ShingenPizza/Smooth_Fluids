@@ -9,7 +9,7 @@ local shortest_time = settings.startup['Smooth_Fluids-shortest-time-allowed'].va
 local blacklist = string.split(settings.startup['Smooth_Fluids-blacklist'].value, ',')
 local lowest_fluid = 0.1 -- i don't think this needs a separate setting... yet.
 
-function add_recipe(recipe_name)
+function check_recipe(recipe_name)
   myutil.log(recipe_name)
 
   if myutil.has_value(blacklist, recipe_name) then
@@ -52,13 +52,9 @@ function add_recipe(recipe_name)
     return
   end
 
-  for _, sub in pairs({'ingredients', 'results'}) do
-    for _, tmp in pairs(recipe[sub]) do
-      if not myutil.is_fluid(tmp) and myutil.get_amount(tmp) == 1 then
-        myutil.log('ignoring ' .. recipe_name .. ' - a non-fluid ingredient/result with amount = 1')
-        return
-      end
-    end
+  if myutil.is_any_single_nonfluid(recipe) then
+    myutil.log('ignoring ' .. recipe_name .. ' - a non-fluid ingredient/result with amount = 1')
+    return
   end
 
   myutil.log('adding ' .. recipe_name)
@@ -66,10 +62,10 @@ function add_recipe(recipe_name)
 end
 
 for recipe_name, _ in pairs(datarecipe) do
-  add_recipe(recipe_name)
+  check_recipe(recipe_name)
 end
 
-function smooth(recipe_name)
+function smooth_recipe(recipe_name)
   myutil.log('smoothing ' .. recipe_name)
   local recipe = datarecipe[recipe_name]
 
@@ -119,5 +115,5 @@ function smooth(recipe_name)
 end
 
 for _, recipe_name in pairs(recipes) do
-  smooth(recipe_name)
+  smooth_recipe(recipe_name)
 end
