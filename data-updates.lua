@@ -87,13 +87,40 @@ function smooth_recipe(recipe_name)
     end
   end
   local crafting_time = myutil.get_craft_time(recipe)
-  myutil.log('time: ' .. crafting_time .. ' / ' .. shortest_time .. ' = ' .. crafting_time / shortest_time)
-  table.insert(tmpamounts, crafting_time / shortest_time)
+  local crafting_time_div = crafting_time / shortest_time
+  myutil.log('time: ' .. crafting_time .. ' / ' .. shortest_time .. ' = ' .. crafting_time_div)
+  if not myutil.has_value(tmpamounts, crafting_time_div) then
+    table.insert(tmpamounts, crafting_time_div)
+  end
 
   myutil.log('tmpamounts:')
   for i, amount in pairs(tmpamounts) do
     myutil.log(i .. ' ' .. amount)
   end
+
+  local needs_adjust = true
+  local total_mult = 1
+
+  while needs_adjust do
+    needs_adjust = false
+    for _, amount in pairs(tmpamounts) do
+      local mult_amount = total_mult * amount
+      if mult_amount ~= math.floor(mult_amount) then
+        total_mult = total_mult + 1
+        needs_adjust = true
+        break
+      end
+    end
+  end
+
+  if total_mult ~= 1 then
+    myutil.log('tmpamounts after integer adjustment:')
+    for i, amount in pairs(tmpamounts) do
+      tmpamounts[i] = amount * total_mult
+      myutil.log(i .. ' ' .. tmpamounts[i])
+    end
+  end
+
   local found_gcd
   if table_size(tmpamounts) == 1 then
     found_gcd = tmpamounts[1]
@@ -101,6 +128,11 @@ function smooth_recipe(recipe_name)
     found_gcd = myutil.GCD_list(tmpamounts)
   end
   myutil.log('found_gcd: ' .. found_gcd)
+
+  if total_mult ~= 1 then
+    found_gcd = found_gcd / total_mult
+    myutil.log('found_gcd after reverting integer adjustment: ' .. found_gcd)
+  end
 
   myutil.log('new values:')
   for _, sub in pairs({'ingredients', 'results'}) do

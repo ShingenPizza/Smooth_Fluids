@@ -26,3 +26,8 @@ Version: 1.0.4
 Date: 2020-11-23
   Other:
     - Factorio 1.1 version bump.
+---------------------------------------------------------------------------------------------------
+Version: ?
+Date: ?
+  Features:
+    - Improved common divisor calculations to allow for non-integer divisors.
