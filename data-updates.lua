@@ -35,20 +35,8 @@ function check_recipe(recipe_name)
     return
   end
 
-  -- TODO support result with result_count > 1
-  if not recipe['results'] then
-    myutil.log('ignoring ' .. recipe_name .. ' - single result')
-    return
-  end
-
   if not myutil.is_any_fluid(recipe) then
     myutil.log('ignoring ' .. recipe_name .. ' - no fluids')
-    return
-  end
-
-  -- TODO support amount ranges
-  if myutil.does_any_have_amount_range(recipe) then
-    myutil.log('ignoring ' .. recipe_name .. ' - amount_min or amount_max')
     return
   end
 
@@ -65,26 +53,50 @@ for recipe_name, _ in pairs(datarecipe) do
   check_recipe(recipe_name)
 end
 
+function get_ingres_inner(tmpamounts, name, amount, is_fluid)
+  if amount > 0 then
+    local amount_div = amount
+    if is_fluid then
+      amount_div = amount_div / lowest_fluid
+    end
+    myutil.log(name .. ' amount ' .. amount .. myutil.tertiary(is_fluid, ' / ' .. lowest_fluid .. ' = ' .. amount_div .. ' (fluid)', ''))
+    if not myutil.has_value(tmpamounts, amount_div) then
+      table.insert(tmpamounts, amount_div)
+    end
+  end
+end
+
+function get_ingres(tmpamounts, ingres)
+  for _, tmp in pairs(ingres) do
+    for _, amount in pairs(myutil.get_amounts(tmp)) do
+      get_ingres_inner(tmpamounts, myutil.get_name(tmp), amount, myutil.is_fluid(tmp))
+    end
+  end
+end
+
+function set_ingres(amounts, found_gcd, tmp)
+  for i, amount in pairs(amounts) do
+    amounts[i] = amount / found_gcd
+  end
+  myutil.set_amounts(tmp, amounts)
+  for _, amount in pairs(myutil.get_amounts(tmp)) do
+    myutil.log(myutil.get_name(tmp) .. ' ' .. amount)
+  end
+end
+
 function smooth_recipe(recipe_name)
   myutil.log('smoothing ' .. recipe_name)
   local recipe = datarecipe[recipe_name]
 
   local tmpamounts = {}
   myutil.log('values:')
-  for _, sub in pairs({'ingredients', 'results'}) do
-    myutil.log(sub .. ':')
-    for _, tmp in pairs(recipe[sub]) do
-      local amount = myutil.get_amount(tmp)
-      if amount > 0 then
-        myutil.log(myutil.get_name(tmp) .. ' amount ' .. amount .. myutil.tertiary(myutil.is_fluid(tmp), ' / ' .. lowest_fluid .. ' = ' .. amount / lowest_fluid .. ' (fluid)', ''))
-        if myutil.is_fluid(tmp) then
-          amount = amount / lowest_fluid
-        end
-        if not myutil.has_value(tmpamounts, amount) then
-          table.insert(tmpamounts, amount)
-        end
-      end
-    end
+  myutil.log('ingredients:')
+  get_ingres(tmpamounts, recipe['ingredients'])
+  myutil.log('results:')
+  if recipe['results'] then
+    get_ingres(tmpamounts, recipe['results'])
+  elseif recipe['result'] then
+    get_ingres_inner(tmpamounts, recipe['result'], myutil.get_result_count(recipe), false)
   end
   local crafting_time = myutil.get_craft_time(recipe)
   local crafting_time_div = crafting_time / shortest_time
@@ -135,12 +147,18 @@ function smooth_recipe(recipe_name)
   end
 
   myutil.log('new values:')
-  for _, sub in pairs({'ingredients', 'results'}) do
-    myutil.log(sub .. ':')
-    for _, tmp in pairs(recipe[sub]) do
-      myutil.set_amount(tmp, myutil.get_amount(tmp) / found_gcd)
-      myutil.log(myutil.get_name(tmp) .. ' ' .. myutil.get_amount(tmp))
+  myutil.log('ingredients:')
+  for _, tmp in pairs(recipe['ingredients']) do
+    set_ingres(myutil.get_amounts(tmp), found_gcd, tmp)
+  end
+  myutil.log('results:')
+  if recipe['results'] then
+    for _, tmp in pairs(recipe['results']) do
+      set_ingres(myutil.get_amounts(tmp), found_gcd, tmp)
     end
+  elseif recipe['result'] then
+    recipe['result_count'] = myutil.get_result_count(recipe) / found_gcd
+    myutil.log(recipe['result'] .. ' ' .. recipe['result_count'])
   end
   myutil.set_craft_time(recipe, crafting_time / found_gcd)
   myutil.log('time: ' .. myutil.get_craft_time(recipe))

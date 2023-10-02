@@ -62,27 +62,35 @@ function myutil.has_value(list, val)
 end
 
 function myutil.are_all_of_known_recipe_format(recipe)
-  for _, sub in pairs({'ingredients', 'results'}) do
-    for _, tmp in pairs(recipe[sub]) do if not myutil.is_known_recipe_format(tmp) then return false end end
+  for _, tmp in pairs(recipe['ingredients']) do if not myutil.is_known_recipe_format(tmp) then return false end end
+  if recipe['results'] then
+    for _, tmp in pairs(recipe['results']) do if not myutil.is_known_recipe_format(tmp) then return false end end
+  elseif not recipe['result'] then
+    return false
   end
   return true
 end
 
 function myutil.is_any_fluid(recipe)
-  for _, sub in pairs({'ingredients', 'results'}) do
-    for _, tmp in pairs(recipe[sub]) do if myutil.is_fluid(tmp) then return true end end
+  for _, tmp in pairs(recipe['ingredients']) do if myutil.is_fluid(tmp) then return true end end
+  if recipe['results'] then
+    for _, tmp in pairs(recipe['results']) do if myutil.is_fluid(tmp) then return true end end
   end
   return false
 end
 
-function myutil.does_any_have_amount_range(recipe)
-  for _, tmp in pairs(recipe['results']) do if tmp['amount_min'] or tmp['amount_max'] then return true end end
-  return false
-end
-
 function myutil.is_any_single_nonfluid(recipe)
-  for _, sub in pairs({'ingredients', 'results'}) do
-    for _, tmp in pairs(recipe[sub]) do if not myutil.is_fluid(tmp) and myutil.get_amount(tmp) == 1 then return true end end
+  for _, tmp in pairs(recipe['ingredients']) do
+    local amounts = myutil.get_amounts(tmp)
+    if not myutil.is_fluid(tmp) and table_size(amounts) == 1 and amounts[1] == 1 then return true end
+  end
+  if recipe['results'] then
+    for _, tmp in pairs(recipe['results']) do
+      local amounts = myutil.get_amounts(tmp)
+      if not myutil.is_fluid(tmp) and table_size(amounts) == 1 and amounts[1] == 1 then return true end
+    end
+  elseif recipe['result'] then
+    return myutil.get_result_count(recipe) == 1
   end
   return false
 end
@@ -115,23 +123,35 @@ function myutil.get_name(ingres)
   end
 end
 
-function myutil.get_amount(ingres)
+function myutil.get_result_count(recipe)
+  if recipe['result_count'] == nil then
+    return 1
+  end
+  return recipe['result_count']
+end
+
+function myutil.get_amounts(ingres)
   if myutil.is_full_format(ingres) then
     if ingres['amount'] then
-      return ingres['amount']
+      return {ingres['amount']}
+    elseif ingres['amount_min'] and ingres['amount_max'] then
+      return {ingres['amount_min'], ingres['amount_max']}
     else
-      return 1
+      return {1}
     end
   else
-    return ingres[2]
+    return {ingres[2]}
   end
 end
 
-function myutil.set_amount(ingres, val)
-  if myutil.is_full_format(ingres) then
-    ingres['amount'] = val
+function myutil.set_amounts(ingres, val)
+  if table_size(val) == 2 then
+    ingres['amount_min'] = val[1]
+    ingres['amount_max'] = val[2]
+  elseif myutil.is_full_format(ingres) then
+    ingres['amount'] = val[1]
   else
-    ingres[2] = val
+    ingres[2] = val[1]
   end
 end
 

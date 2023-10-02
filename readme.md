@@ -27,9 +27,6 @@ production. It doesn't matter in the long run though.
 
 \* ATM I do not support recipes:
 * that have the normal/expensive _difficulties_,
-* with result amount ranges,
-* with a single (type, not quantity) item result in a different-than-usual
-format that i didn't figure out how to handle nicely yet,
 * and obviously recipes with no fluid components.
 
 And please note that I'm not a professional Lua dev etc.. Factorio modding is my
