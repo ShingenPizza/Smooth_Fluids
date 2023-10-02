@@ -42,7 +42,7 @@ function check_recipe_inner(recipe_name, recipe_difficulty, recipe)
     return
   end
 
-  if not myutil.is_any_fluid(recipe) then
+  if not settings.startup['Smooth_Fluids-process-all-recipes'].value and not myutil.is_any_fluid(recipe) then
     myutil.log('ignoring ' .. recipe_difficulty .. ' ' .. recipe_name .. ' - no fluids')
     return
   end

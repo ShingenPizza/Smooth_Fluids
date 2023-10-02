@@ -34,3 +34,4 @@ Date: ?
     - Added support for result ranges.
     - Added support for single-result recipes.
     - Added support for normal/expensive recipes.
+    - Added a setting to enable smoothing also non-fluid-involving recipes.

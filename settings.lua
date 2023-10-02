@@ -19,6 +19,13 @@ data:extend({
   },
   {
     type = 'bool-setting',
+    name = 'Smooth_Fluids-process-all-recipes',
+    setting_type = 'startup',
+    default_value = false,
+    order = '03',
+  },
+  {
+    type = 'bool-setting',
     name = 'Smooth_Fluids-debug',
     setting_type = 'startup',
     default_value = false,
