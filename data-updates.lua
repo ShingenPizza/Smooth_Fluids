@@ -19,34 +19,41 @@ function check_recipe(recipe_name)
 
   local recipe = datarecipe[recipe_name]
 
-  -- TODO support normal/expensive recipes
-  if not recipe['ingredients'] or not recipe['results'] then
-    myutil.log('ignoring ' .. recipe_name .. ' - no ingredients or results (probably a recipe with normal/expensive modes)')
+  if recipe['normal'] == nil and recipe['expensive'] == nil then
+    check_recipe_inner(recipe_name, 'default', recipe)
     return
   end
 
+  for _, difficulty in pairs({'normal', 'expensive'}) do
+    if recipe[difficulty] then
+      check_recipe_inner(recipe_name, difficulty, recipe[difficulty])
+    end
+  end
+end
+
+function check_recipe_inner(recipe_name, recipe_difficulty, recipe)
   if not myutil.are_all_of_known_recipe_format(recipe) then
-    myutil.log('ignoring ' .. recipe_name .. ' - unknown recipe format')
+    myutil.log('ignoring ' .. recipe_difficulty .. ' ' .. recipe_name .. ' - unknown recipe format')
     return
   end
 
   if myutil.get_craft_time(recipe) <= shortest_time then
-    myutil.log('ignoring ' .. recipe_name .. ' - energy_required (crafting time) <= ' .. shortest_time .. ' - already fast enough')
+    myutil.log('ignoring ' .. recipe_difficulty .. ' ' .. recipe_name .. ' - energy_required (crafting time) <= ' .. shortest_time .. ' - already fast enough')
     return
   end
 
   if not myutil.is_any_fluid(recipe) then
-    myutil.log('ignoring ' .. recipe_name .. ' - no fluids')
+    myutil.log('ignoring ' .. recipe_difficulty .. ' ' .. recipe_name .. ' - no fluids')
     return
   end
 
   if myutil.is_any_single_nonfluid(recipe) then
-    myutil.log('ignoring ' .. recipe_name .. ' - a non-fluid ingredient/result with amount = 1')
+    myutil.log('ignoring ' .. recipe_difficulty .. ' ' .. recipe_name .. ' - a non-fluid ingredient/result with amount = 1')
     return
   end
 
-  myutil.log('adding ' .. recipe_name)
-  table.insert(recipes, recipe_name)
+  myutil.log('adding ' .. recipe_difficulty .. ' ' .. recipe_name)
+  table.insert(recipes, {recipe_name, recipe_difficulty, recipe})
 end
 
 for recipe_name, _ in pairs(datarecipe) do
@@ -84,9 +91,12 @@ function set_ingres(amounts, found_gcd, tmp)
   end
 end
 
-function smooth_recipe(recipe_name)
-  myutil.log('smoothing ' .. recipe_name)
-  local recipe = datarecipe[recipe_name]
+function smooth_recipe(recipe_data)
+  local recipe_name = recipe_data[1]
+  local recipe_difficulty = recipe_data[2]
+  local recipe = recipe_data[3]
+
+  myutil.log('smoothing ' .. recipe_difficulty .. ' ' .. recipe_name)
 
   local tmpamounts = {}
   myutil.log('values:')
@@ -164,6 +174,6 @@ function smooth_recipe(recipe_name)
   myutil.log('time: ' .. myutil.get_craft_time(recipe))
 end
 
-for _, recipe_name in pairs(recipes) do
-  smooth_recipe(recipe_name)
+for _, recipe_data in pairs(recipes) do
+  smooth_recipe(recipe_data)
 end

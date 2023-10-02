@@ -33,3 +33,4 @@ Date: ?
     - Improved common divisor calculations to allow for non-integer divisors.
     - Added support for result ranges.
     - Added support for single-result recipes.
+    - Added support for normal/expensive recipes.

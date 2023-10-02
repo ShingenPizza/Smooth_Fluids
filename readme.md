@@ -26,8 +26,7 @@ probably cause a couple-seconds-long surge/lowering of altered fluids'
 production. It doesn't matter in the long run though.
 
 \* ATM I do not support recipes:
-* that have the normal/expensive _difficulties_,
-* and obviously recipes with no fluid components.
+* with no fluid components.
 
 And please note that I'm not a professional Lua dev etc.. Factorio modding is my
 first time playing around with it, so if you have any suggestions for
