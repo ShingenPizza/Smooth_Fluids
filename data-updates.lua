@@ -127,7 +127,7 @@ function smooth_recipe(recipe_data)
     needs_adjust = false
     for _, amount in pairs(tmpamounts) do
       local mult_amount = total_mult * amount
-      if mult_amount ~= math.floor(mult_amount) then
+      if not myutil.is_basically_an_integer(mult_amount) then
         total_mult = total_mult + 1
         needs_adjust = true
         break

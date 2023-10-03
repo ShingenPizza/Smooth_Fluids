@@ -35,3 +35,8 @@ Date: 2023-10-02
     - Added support for single-result recipes.
     - Added support for normal/expensive recipes.
     - Added a setting to enable smoothing also non-fluid-involving recipes.
+---------------------------------------------------------------------------------------------------
+Version: ?
+Date: ?
+  Fixes:
+    - Fixed integer detection to prevent yet another infinite loop.

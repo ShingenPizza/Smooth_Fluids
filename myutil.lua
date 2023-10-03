@@ -29,6 +29,11 @@ function myutil.round(val) -- just for rounding positive values to units
   return math.floor(val + 0.5)
 end
 
+function myutil.is_basically_an_integer(val)
+  local decimal_part = val % 1
+  return decimal_part < 0.001 or decimal_part > 0.999
+end
+
 function myutil.GCD(a, b)
   local diff = myutil.round(a - b)
   if diff > 0 then return myutil.GCD(diff, b) end
