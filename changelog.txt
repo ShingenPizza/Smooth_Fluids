@@ -36,7 +36,7 @@ Date: 2023-10-02
     - Added support for normal/expensive recipes.
     - Added a setting to enable smoothing also non-fluid-involving recipes.
 ---------------------------------------------------------------------------------------------------
-Version: ?
-Date: ?
+Version: 1.1.1
+Date: 2023-10-03
   Fixes:
     - Fixed integer detection to prevent yet another infinite loop.
