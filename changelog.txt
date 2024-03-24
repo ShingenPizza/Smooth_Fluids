@@ -40,3 +40,8 @@ Version: 1.1.1
 Date: 2023-10-03
   Fixes:
     - Fixed integer detection to prevent yet another infinite loop.
+---------------------------------------------------------------------------------------------------
+Version: ?
+Date: ?
+  Fixes:
+    - Fixed operations on non-round values sometimes resulting in multiplying ('bulking') the recipe instead of dividing ('smoothing') it.

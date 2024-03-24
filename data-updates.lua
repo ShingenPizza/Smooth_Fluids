@@ -154,6 +154,10 @@ function smooth_recipe(recipe_data)
   if total_mult ~= 1 then
     found_gcd = found_gcd / total_mult
     myutil.log('found_gcd after reverting integer adjustment: ' .. found_gcd)
+    if found_gcd < 1 then
+      myutil.log('ending smoothing ' .. recipe_difficulty .. ' ' .. recipe_name .. ' prematurely because found_gcd < 1, which would end up in multiplying (\'bulking\') the recipe')
+      return
+    end
   end
 
   myutil.log('new values:')
