@@ -41,8 +41,8 @@ Date: 2023-10-03
   Fixes:
     - Fixed integer detection to prevent yet another infinite loop.
 ---------------------------------------------------------------------------------------------------
-Version: ?
-Date: ?
+Version: 1.2.0
+Date: 2024-03-24
   Changes:
     - Decreased the default shortest crafting time to 0.18s.
   Fixes:
