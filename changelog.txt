@@ -43,5 +43,8 @@ Date: 2023-10-03
 ---------------------------------------------------------------------------------------------------
 Version: ?
 Date: ?
+  Changes:
+    - Decreased the default shortest crafting time to 0.18s.
   Fixes:
     - Fixed operations on non-round values sometimes resulting in multiplying ('bulking') the recipe instead of dividing ('smoothing') it.
+    - Improved the 'precision' of crafting time from being equal to the shortest crafting time, to 0.01s.

@@ -5,6 +5,7 @@ local datarecipe = data.raw.recipe
 
 local recipes = {}
 
+local time_precision = 0.01
 local shortest_time = settings.startup['Smooth_Fluids-shortest-time-allowed'].value
 local blacklist = string.split(settings.startup['Smooth_Fluids-blacklist'].value, ',')
 local lowest_fluid = 0.1 -- i don't think this needs a separate setting... yet.
@@ -109,8 +110,8 @@ function smooth_recipe(recipe_data)
     get_ingres_inner(tmpamounts, recipe['result'], myutil.get_result_count(recipe), false)
   end
   local crafting_time = myutil.get_craft_time(recipe)
-  local crafting_time_div = crafting_time / shortest_time
-  myutil.log('time: ' .. crafting_time .. ' / ' .. shortest_time .. ' = ' .. crafting_time_div)
+  local crafting_time_div = crafting_time / time_precision
+  myutil.log('time: ' .. crafting_time .. ' / ' .. time_precision .. ' = ' .. crafting_time_div)
   if not myutil.has_value(tmpamounts, crafting_time_div) then
     table.insert(tmpamounts, crafting_time_div)
   end
@@ -158,6 +159,12 @@ function smooth_recipe(recipe_data)
       myutil.log('ending smoothing ' .. recipe_difficulty .. ' ' .. recipe_name .. ' prematurely because found_gcd < 1, which would end up in multiplying (\'bulking\') the recipe')
       return
     end
+  end
+
+  local tmp_crafting_time = crafting_time / found_gcd
+  if tmp_crafting_time < shortest_time then
+    found_gcd = found_gcd / math.ceil(shortest_time / tmp_crafting_time)
+    myutil.log('after dividing by found_gcd, time is shorter than shortest_time - adjusted found_gcd resulting in: ' .. found_gcd)
   end
 
   myutil.log('new values:')

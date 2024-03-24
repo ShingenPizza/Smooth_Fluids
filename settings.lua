@@ -4,7 +4,7 @@ data:extend({
     type = 'double-setting',
     name = 'Smooth_Fluids-shortest-time-allowed',
     setting_type = 'startup',
-    default_value = 0.2,
+    default_value = 0.18,
     minimum_value = 0.02,
     maximum_value = 1000.0,
     order = '01',
