@@ -49,7 +49,7 @@ Date: 2024-03-24
     - Fixed operations on non-round values sometimes resulting in multiplying ('bulking') the recipe instead of dividing ('smoothing') it.
     - Improved the 'precision' of crafting time from being equal to the shortest crafting time, to 0.01s.
 ---------------------------------------------------------------------------------------------------
-Version: ?
-Date: ?
+Version: 1.3.0
+Date: 2024-07-08
   Fixes:
     - Moved main code to data-final-fixes and added dependencies to Krastorio2 and 248k, to fix an issue of those and possibly other mods modifying recipes their own way after they've been smoothed.
