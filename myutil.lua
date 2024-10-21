@@ -67,7 +67,9 @@ function myutil.has_value(list, val)
 end
 
 function myutil.are_all_of_known_recipe_format(recipe)
-  for _, tmp in pairs(recipe['ingredients']) do if not myutil.is_known_recipe_format(tmp) then return false end end
+  if recipe['ingredients'] then
+    for _, tmp in pairs(recipe['ingredients']) do if not myutil.is_known_recipe_format(tmp) then return false end end
+  end
   if recipe['results'] then
     for _, tmp in pairs(recipe['results']) do if not myutil.is_known_recipe_format(tmp) then return false end end
   elseif not recipe['result'] then

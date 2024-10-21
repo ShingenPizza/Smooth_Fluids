@@ -53,3 +53,8 @@ Version: 1.3.0
 Date: 2024-07-08
   Fixes:
     - Moved main code to data-final-fixes and added dependencies to Krastorio2 and 248k, to fix an issue of those and possibly other mods modifying recipes their own way after they've been smoothed.
+---------------------------------------------------------------------------------------------------
+Version: ?
+Date: ?
+  Fixes:
+    - Factorio 2.0 compatibility - support for recipes with no ingredients
